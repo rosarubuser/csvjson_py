@@ -1,6 +1,7 @@
 import csv
 import json
 import argparse
+import io
 from io import StringIO
 
 
@@ -15,21 +16,20 @@ def csv2js(csv_str):
 def js2csv(js_str):
     list_f = json.loads(js_str)  # convert str to list (which is composed of dicts)
 
-    # TODO fix the bug on csv.DictWriter(file required)
     fieldnames = []  # fieldnames to store keys
     for key in list_f[0]:  # find the keys
         fieldnames.append(key)
-    csv_str = ""
-    writer = csv.DictWriter(csv_str, fieldnames)
+    csv_str = io.StringIO()
+    writer = csv.DictWriter(csv_str, fieldnames)    # here csv_str requires file form
     writer.writeheader()  # add the keys as first row
     for row in list_f:  # for each dict in list
         writer.writerow(row)  # convert dict values to csv
-    return csv_str
+    return csv_str.getvalue()
 
 
 ''' for testing input
-inF_path = "../test/testing.csv"
-outF_path = "../test/result.json"
+inF_path = "../test/testing.json"
+outF_path = "../test/result.csv"
 '''
 
 parser = argparse.ArgumentParser()
