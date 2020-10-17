@@ -3,6 +3,7 @@ import json
 import argparse
 import io
 from io import StringIO
+import os
 
 
 def csv2js(csv_str):
@@ -20,7 +21,7 @@ def js2csv(js_str):
     for key in list_f[0]:  # find the keys
         fieldnames.append(key)
     csv_str = io.StringIO()
-    writer = csv.DictWriter(csv_str, fieldnames)    # here csv_str requires file form
+    writer = csv.DictWriter(csv_str, fieldnames)  # here csv_str requires file form
     writer.writeheader()  # add the keys as first row
     for row in list_f:  # for each dict in list
         writer.writerow(row)  # convert dict values to csv
@@ -28,26 +29,50 @@ def js2csv(js_str):
 
 
 ''' for testing input
-inF_path = "../test/testing.json"
-outF_path = "../test/result.csv"
+input = "testing"
+output = "result"
 '''
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("input", help="the input file path")
-    parser.add_argument("output", help="the output file path")
-    parser.add_argument("choice", type=int, choices=[1, 2], help="converting method (choose from 1,2):"
-                                                                 "1 - from csv to json; "
-                                                                 "2 - from json to csv")
+    parser.add_argument("input", help="the input file name")
+    parser.add_argument("output", help="the output file name")
+    parser.add_argument("choice", choices=["csv2js", "js2csv"], help="converting method:"
+                                                                     "- from csv to json or"
+                                                                     "- from json to csv")
     args = parser.parse_args()
 
-    with open(args.input, 'r') as inF:
+    # complete the full file path
+    if args.choice == "csv2js":  # convert csv to json
+        input_path = "../test/" + args.input + ".csv"
+        output_path = "../test/" + args.output + ".json"
+    elif args.choice == "js2csv":  # convert json to csv
+        input_path = "../test/" + args.input + ".json"
+        output_path = "../test/" + args.output + ".csv"
+
+    # check whether the input file exists
+    if not os.path.isfile(input_path):
+        print("The input file path is invalid.")
+        exit()
+
+    # exam the file opening
+    try:
+        inF = open(input_path, 'r')
         in_str = inF.read()  # read the input file into string
+    except:
+        print("Something went wrong in reading the input file")
+    else:
+        if args.choice == "csv2js":  # convert csv to json
+            out_str = csv2js(in_str)
+        elif args.choice == "js2csv":  # convert json to csv
+            out_str = js2csv(in_str)
 
-    if args.choice == 1:  # convert csv to json
-        out_str = csv2js(in_str)
-    elif args.choice == 2:  # convert json to csv
-        out_str = js2csv(in_str)
-
-    with open(args.output, 'w') as outF:
-        outF.write(out_str)
+        try:
+            outF = open(output_path, 'w')
+            outF.write(out_str)
+        except:
+            print("Something went wrong in writing the output file")
+        finally:
+            outF.close()
+    finally:
+        inF.close()
