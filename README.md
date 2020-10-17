@@ -1,24 +1,30 @@
 # CSV and JSON converter
 
-The tool helps to convert between CSV and JSON file.
+The tool helps to convert between CSV and JSON format files.
 
 ## Installation
 Require Python 3+
 
 ## Usage
-In the Terminal, run csv_json.py.
+In the Terminal, run csv_json.py inputFileName outputFileName convertMethod.
+
+For example:
 ```bash
-python csv_json.py ../test/testing.csv ../test/result.json 1
+python csv_json.py testing result csv2js
 ```
 You must input three arguments.
 
-The first is the input file path.
+The first is the input file name. You should not include the suffix.
 
-The second is the output file path.
+The second is the output file name. Also, you should not include the suffix.
 
-The last argument is to choose the converting method. 1 means to convert from csv to json and 2 is from csv to json.
+The last argument is to choose the converting method. You should input either csv2js (represents csv to json format) or js2csv (represents json to csv format).
 
-Here is an example (The following code is contained in the test folder):
+The resulting file will be produced in the folder **test**.
+
+
+Here is an example of showing the result from changing csv file to json file
+(The example code is contained in the package):
 ```
 album, year, US_peak_chart_post
 The White Stripes, 1999, -
