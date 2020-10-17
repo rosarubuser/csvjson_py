@@ -32,21 +32,22 @@ inF_path = "../test/testing.json"
 outF_path = "../test/result.csv"
 '''
 
-parser = argparse.ArgumentParser()
-parser.add_argument("input", help="the input file path")
-parser.add_argument("output", help="the output file path")
-parser.add_argument("choice", type=int, choices=[1, 2], help="converting method (choose from 1,2):"
-                                                             "1 - from csv to json; "
-                                                             "2 - from json to csv")
-args = parser.parse_args()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input", help="the input file path")
+    parser.add_argument("output", help="the output file path")
+    parser.add_argument("choice", type=int, choices=[1, 2], help="converting method (choose from 1,2):"
+                                                                 "1 - from csv to json; "
+                                                                 "2 - from json to csv")
+    args = parser.parse_args()
 
-with open(args.input, 'r') as inF:
-    in_str = inF.read()  # read the input file into string
+    with open(args.input, 'r') as inF:
+        in_str = inF.read()  # read the input file into string
 
-if args.choice == 1:  # convert csv to json
-    out_str = csv2js(in_str)
-elif args.choice == 2:  # convert json to csv
-    out_str = js2csv(in_str)
+    if args.choice == 1:  # convert csv to json
+        out_str = csv2js(in_str)
+    elif args.choice == 2:  # convert json to csv
+        out_str = js2csv(in_str)
 
-with open(args.output, 'w') as outF:
-    outF.write(out_str)
+    with open(args.output, 'w') as outF:
+        outF.write(out_str)
