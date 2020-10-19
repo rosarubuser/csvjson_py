@@ -8,9 +8,10 @@ import os
 
 def csv2js(csv_str):
     dict_f = csv.DictReader(StringIO(csv_str), skipinitialspace=True)  # read from file into dictionary
-    js_str = ""
+    result_list = []
     for row in dict_f:
-        js_str = js_str + json.dumps(row, indent=4) + '\n'  # convert dict to string
+        result_list.append(row)
+    js_str = json.dumps(result_list)
     return js_str
 
 
