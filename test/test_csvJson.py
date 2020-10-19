@@ -14,30 +14,32 @@ class TestCsvJson(unittest.TestCase):
                  "John, 22, M\n" \
                  "Amy, 50, F"
         result = csv2js(in_str)
-        expected = "{\n" \
+        expected = "[\n" \
+                   "  {\n" \
                    "    \"Name\": \"John\",\n" \
                    "    \"Age\": \"22\",\n" \
                    "    \"Sex\": \"M\"\n" \
-                   "}\n" \
-                   "{\n" \
+                   "  },\n" \
+                   "  {\n" \
                    "    \"Name\": \"Amy\",\n" \
                    "    \"Age\": \"50\",\n" \
                    "    \"Sex\": \"F\"\n" \
-                   "}\n"
+                   "  }\n" \
+                   "]"
         self.assertEqual(result, expected)
 
     def test_js2csv(self):
         in_str = "[\n" \
-                 " {\n" \
+                 "  {\n" \
                  "    \"Name\": \"John\",\n" \
                  "    \"Age\": \"22\",\n" \
                  "    \"Sex\": \"M\"\n" \
-                 " },\n" \
-                 " {\n" \
+                 "  },\n" \
+                 "  {\n" \
                  "    \"Name\": \"Amy\",\n" \
                  "    \"Age\": \"50\",\n" \
                  "    \"Sex\": \"F\"\n" \
-                 " }\n" \
+                 "  }\n" \
                  "]"
         result = js2csv(in_str)
         expected = "Name,Age,Sex\r\n" \

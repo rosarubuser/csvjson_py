@@ -11,7 +11,7 @@ def csv2js(csv_str):
     result_list = []
     for row in dict_f:
         result_list.append(row)
-    js_str = json.dumps(result_list)
+    js_str = json.dumps(result_list, indent=2)
     return js_str
 
 
